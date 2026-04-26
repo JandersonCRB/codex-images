@@ -1,0 +1,14 @@
+{
+  "name": "codex-images",
+  "owner": {
+    "name": "Janderson Carvalho",
+    "url": "https://github.com/JandersonCRB"
+  },
+  "plugins": [
+    {
+      "name": "codex-images",
+      "source": "./plugins/codex-images",
+      "description": "Generate UI image assets by delegating to the Codex MCP server."
+    }
+  ]
+}
