@@ -1,6 +1,6 @@
 {
   "name": "codex-images",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate UI image assets (heroes, avatars, illustrations, og:images, etc.) by delegating to the Codex MCP server. Bundles a slash command and an auto-triggering skill.",
   "author": {
     "name": "Janderson Carvalho",
