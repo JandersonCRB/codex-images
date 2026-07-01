@@ -1,0 +1,11 @@
+{
+  "name": "ai-images",
+  "version": "0.2.0",
+  "description": "Generate UI image assets (heroes, avatars, illustrations, og:images, etc.) by delegating to the Codex MCP server, with an Antigravity CLI fallback. Bundles a slash command and an auto-triggering skill.",
+  "author": {
+    "name": "Janderson Carvalho",
+    "url": "https://github.com/JandersonCRB"
+  },
+  "homepage": "https://github.com/JandersonCRB/codex-images",
+  "license": "MIT"
+}

@@ -1,14 +1,14 @@
 {
-  "name": "codex-images",
+  "name": "ai-images",
   "owner": {
     "name": "Janderson Carvalho",
     "url": "https://github.com/JandersonCRB"
   },
   "plugins": [
     {
-      "name": "codex-images",
-      "source": "./plugins/codex-images",
-      "description": "Generate UI image assets by delegating to the Codex MCP server."
+      "name": "ai-images",
+      "source": "./plugins/ai-images",
+      "description": "Generate UI image assets by delegating to the Codex MCP server, with an Antigravity CLI fallback."
     }
   ]
 }
