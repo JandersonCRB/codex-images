@@ -1,8 +1,10 @@
-# /codex-images — AI Image Generation via Codex
+# /ai-images — AI Image Generation via Codex (with Antigravity CLI fallback)
 
 You are being asked to think carefully about whether the current feature,
 task, or codebase change would benefit from generated images, and if so,
-produce them by delegating to Codex via the `codex` MCP tool.
+produce them by delegating to Codex via the `codex` MCP tool, falling back
+to the Antigravity CLI (`agy`) if Codex isn't registered or a call to it
+fails.
 
 ---
 
@@ -45,7 +47,9 @@ For each image needed:
 
 ---
 
-## Step 3 — Generate the images via Codex
+## Step 3 — Generate the images (Codex, with Antigravity CLI fallback)
+
+### Primary: Codex MCP tool
 
 Call the `codex` MCP tool once per image. Pass a precise, self-contained
 prompt that tells Codex exactly what to generate and where to save it.
@@ -145,11 +149,44 @@ After the call returns, verify the file actually exists at the reported path
 before wiring it into the codebase. If Codex reports a failure, surface the
 error to the user instead of silently moving on.
 
+### Fallback: Antigravity CLI (`agy`)
+
+If the `codex` MCP tool is not registered/available, or a call to it errors
+out, do not give up on image generation — fall back to the Antigravity CLI.
+
+1. Confirm it's installed: `command -v agy`. If it isn't, tell the user
+   neither image backend is available and stop — do not silently skip
+   generation or write a placeholder.
+2. Reuse the **exact same scoped prompt** you built for the Codex tool call
+   above (scope rules, verbatim image description, save path, dimensions,
+   error-reporting requirement) — only the delivery mechanism changes.
+3. Run it non-interactively via Bash, from the project root (the same
+   directory you'd otherwise pass as Codex's `cwd`):
+
+   ```bash
+   agy -p "<same rich prompt template as the codex call above>" \
+       --dangerously-skip-permissions
+   ```
+
+   `--dangerously-skip-permissions` avoids an interactive approval prompt
+   that would otherwise hang in a non-interactive session. Do not stack
+   `--sandbox` on top of it — a known issue
+   (google-antigravity/antigravity-cli#36) makes the combination silently
+   no-op the sandbox, which is worse than not requesting one.
+4. Verify the reported output file exists on disk — same check as the Codex
+   path — before wiring it into the codebase.
+
+> **Antigravity CLI is new and moves fast** (it replaced Gemini CLI in June
+> 2026). The binary name (`agy`), the `-p` prompt flag, and
+> `--dangerously-skip-permissions` are current as of mid-2026 — if the
+> fallback stops working, run `agy --help` to check for renamed flags before
+> assuming the tool itself is broken.
+
 ---
 
 ## Step 4 — Wire up the generated assets
 
-After Codex confirms the file was saved:
+After Codex (or the Antigravity fallback) confirms the file was saved:
 1. Update any placeholder or broken `src` / `url()` references in the code to
    point at the newly generated file.
 2. If the project uses an asset manifest or import system (Vite, webpack, Next.js
