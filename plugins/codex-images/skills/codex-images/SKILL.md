@@ -93,10 +93,20 @@ If no reference images are needed, omit this section entirely.
 
 ### Tool call template
 
-Delegate the entire image generation to the `codex` MCP tool. Do NOT specify
-a model, do NOT mention OpenAI APIs, do NOT pass API keys — Codex handles all
-of that internally with whatever generator it has available. Your job is just
-to describe the image and where to save it.
+Delegate the entire image generation to the `codex` MCP tool. Always pass
+`model="gpt-5.5"` explicitly (see note below) — do NOT mention OpenAI APIs,
+do NOT pass API keys — Codex handles the rest internally with whatever
+generator it has available. Your job is just to describe the image and
+where to save it.
+
+> **Why pin the model:** this MCP server authenticates via ChatGPT OAuth
+> login, and OpenAI periodically discontinues older `-codex` model variants
+> for that login type (calls start failing with a 400 "not supported when
+> using Codex with a ChatGPT account"). Pinning a known-good model here
+> keeps the plugin working regardless of the host machine's
+> `~/.codex/config.toml` default. If this starts 400ing again, check
+> OpenAI's current docs for the recommended model and update the value
+> below.
 
 You also MUST NOT post-process the result yourself (no ImageMagick, no PIL,
 no text overlays). Whatever Codex saves is the final asset.
@@ -129,6 +139,7 @@ codex(
     - If image generation fails, report the exact error — do not write a
       placeholder.
   """,
+  model="gpt-5.5",
   cwd="<absolute path to the project root>",
   sandbox="workspace-write",
   approval-policy="never"

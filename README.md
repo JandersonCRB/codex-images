@@ -2,7 +2,7 @@
 
 A Claude Code plugin that generates UI image assets — hero images, avatars, illustrations, og:images, broken `<img>` placeholders, and so on — by delegating the actual generation to the [Codex MCP server](https://github.com/openai/codex).
 
-Claude does the prompt engineering, picks dimensions, and wires the generated file into your codebase. Codex is treated as a **dumb image-generation pipe**: it takes a verbatim prompt, produces a PNG, saves it to disk, and reports back. No API keys, no model selection, no post-processing.
+Claude does the prompt engineering, picks dimensions, and wires the generated file into your codebase. Codex is treated as a **dumb image-generation pipe**: it takes a verbatim prompt, produces a PNG, saves it to disk, and reports back. No API keys, no post-processing — the only Codex-specific detail Claude passes is a pinned `model`, kept current so ChatGPT-OAuth logins don't hit deprecated defaults.
 
 ## What's in the box
 
